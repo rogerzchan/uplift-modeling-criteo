@@ -18,7 +18,7 @@ import pandas as pd
 import requests
 from tqdm import tqdm
 
-DATA_URL = "https://criteo-uplift.s3.eu-central-1.amazonaws.com/v2.1/criteo-uplift-v2.1.csv.gz"
+DATA_URL = "https://go.criteo.net/criteo-research-uplift-v2.1.csv.gz"
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 DATA_DIR = REPO_ROOT / "data"
