@@ -2,6 +2,10 @@
 data/*
 !data/.gitkeep
 
+# Artifacts — the pickled models are large and machine-specific.
+# results.csv and *.png figures ARE checked in so the README can pull them.
+artifacts/models/
+
 # Python
 __pycache__/
 *.py[cod]
