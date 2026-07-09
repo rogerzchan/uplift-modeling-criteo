@@ -2,7 +2,7 @@
 
 A two-part investigation into uplift modeling. Part 1 replicates Diemert et al. (2018) on the 14M-row Criteo Uplift dataset. Part 2 shows that the meta-learner rankings the field cites are unstable under a factor benchmarks rarely name: the base learner underneath the recipe.
 
-The paper writeup is in [`paper/paper.html`](paper/paper.html).
+The paper writeup is in [`paper/paper.html`](https://rogerzchan.github.io/uplift-modeling-criteo/).
 
 ## Findings at a glance
 
