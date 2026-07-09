@@ -29,3 +29,10 @@ Thumbs.db
 .vscode/
 .idea/
 *.swp
+
+# Per-config sweep artifacts — large binary parquets. Keep only aggregate results.csv.
+artifacts/experiments/*/
+
+# Claude Code local settings — should not be committed.
+.claude/
+CLAUDE.md

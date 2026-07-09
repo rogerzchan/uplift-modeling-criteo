@@ -39,9 +39,9 @@ class XLearner:
         pseudo_estimator=None,
         propensity_estimator=None,
     ):
-        outcome_est = outcome_estimator or HistGradientBoostingClassifier(random_state=42)
-        pseudo_est = pseudo_estimator or HistGradientBoostingRegressor(random_state=42)
-        prop_est = propensity_estimator or HistGradientBoostingClassifier(random_state=42)
+        outcome_est = outcome_estimator if outcome_estimator is not None else HistGradientBoostingClassifier(random_state=42)
+        pseudo_est = pseudo_estimator if pseudo_estimator is not None else HistGradientBoostingRegressor(random_state=42)
+        prop_est = propensity_estimator if propensity_estimator is not None else HistGradientBoostingClassifier(random_state=42)
 
         self.mu_0 = clone(outcome_est)
         self.mu_1 = clone(outcome_est)

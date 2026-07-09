@@ -18,18 +18,24 @@ from __future__ import annotations
 
 import numpy as np
 from sklearn.ensemble import HistGradientBoostingClassifier
+from sklearn.pipeline import Pipeline
 
 
 class ClassTransformationLearner:
     def __init__(self, base_estimator=None):
-        self.base = base_estimator or HistGradientBoostingClassifier(random_state=42)
+        self.base = base_estimator if base_estimator is not None else HistGradientBoostingClassifier(random_state=42)
         self.p_t_: float | None = None
 
     def fit(self, X: np.ndarray, T: np.ndarray, Y: np.ndarray) -> "ClassTransformationLearner":
         Z = (T == Y).astype(np.int8)
         self.p_t_ = float(T.mean())
         w = np.where(T == 1, 1.0 / self.p_t_, 1.0 / (1.0 - self.p_t_))
-        self.base.fit(X, Z, sample_weight=w)
+        if isinstance(self.base, Pipeline):
+            # sklearn Pipelines require step-prefixed kwargs; route to the final step.
+            last_step = self.base.steps[-1][0]
+            self.base.fit(X, Z, **{f"{last_step}__sample_weight": w})
+        else:
+            self.base.fit(X, Z, sample_weight=w)
         return self
 
     def predict_uplift(self, X: np.ndarray) -> np.ndarray:

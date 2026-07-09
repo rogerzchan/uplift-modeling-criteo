@@ -1,13 +1,7 @@
 # Paper
 
-Empty scaffold for the Part 2 methods paper. Populated during Phase 8.
+The methods paper for Part 2 lives in [`paper.html`](paper.html). Open it in a browser; the CSS is print-optimized so `File → Print → Save as PDF` produces the portfolio-grade PDF version.
 
-**Working title candidates** (pick one before Phase 8 starts):
-- *It's the Base Learner: Estimator Ranking Instability in Uplift Modeling*
-- *The Base-Learner Confound in Uplift-Method Benchmarks*
-- *Under-Specified Rankings: Base Learner Choice in Uplift Meta-Learners*
-- *Which Meta-Learner Wins? It Depends on the Base Learner*
-- *Ranking Instability Across Base Learners in Uplift Meta-Learners*
+## Contents
 
-**Format decision** (Phase 8): LaTeX (arxiv two-column) vs. Markdown → PDF.
-Portfolio-grade methods writeup, ~10 pages.
+Structured research paper: abstract, introduction, background, methods, results, discussion, limitations, conclusion, references, reproducibility statement. The four figures cited in the paper are in `../artifacts/`: `part2_qini_heatmap.png`, `part2_engine_sensitivity.png`, `part2_cts_spotlight.png`, `part2_s_learner_diagnostic.png`.

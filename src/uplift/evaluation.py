@@ -96,7 +96,7 @@ def qini_coefficient(curve: pd.DataFrame) -> float:
     end_qini = float(curve["qini"].iloc[-1])
     random_line = curve["share"].to_numpy() * end_qini
     diff = curve["qini"].to_numpy() - random_line
-    return float(np.trapezoid(diff, curve["share"].to_numpy()))
+    return float(np.trapz(diff, curve["share"].to_numpy()))
 
 
 def qini_summary(
@@ -121,7 +121,7 @@ def auuc(curve: pd.DataFrame) -> float:
     conversions, so it is not comparable across datasets — but *is* useful as
     a second within-dataset ranking metric less sensitive to end-behavior.
     """
-    return float(np.trapezoid(curve["qini"].to_numpy(), curve["share"].to_numpy()))
+    return float(np.trapz(curve["qini"].to_numpy(), curve["share"].to_numpy()))
 
 
 def bootstrap_qini_ci(
@@ -172,7 +172,7 @@ def bootstrap_qini_ci(
         qini = y_t_cum - y_c_cum * ratio
         end_qini = qini[-1]
         diff = qini - share_cum * end_qini
-        samples[i] = np.trapezoid(diff, share_cum)
+        samples[i] = np.trapz(diff, share_cum)
 
     lo = float(np.quantile(samples, alpha / 2))
     hi = float(np.quantile(samples, 1 - alpha / 2))

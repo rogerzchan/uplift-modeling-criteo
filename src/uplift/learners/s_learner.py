@@ -15,7 +15,7 @@ class SLearner:
     """
 
     def __init__(self, base_estimator=None):
-        self.base = base_estimator or HistGradientBoostingClassifier(random_state=42)
+        self.base = base_estimator if base_estimator is not None else HistGradientBoostingClassifier(random_state=42)
 
     def fit(self, X: np.ndarray, T: np.ndarray, Y: np.ndarray) -> "SLearner":
         X_aug = np.column_stack([X, T])

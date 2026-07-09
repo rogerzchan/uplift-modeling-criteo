@@ -17,7 +17,7 @@ class TLearner:
     """
 
     def __init__(self, base_estimator=None):
-        base = base_estimator or HistGradientBoostingClassifier(random_state=42)
+        base = base_estimator if base_estimator is not None else HistGradientBoostingClassifier(random_state=42)
         self.mu_0 = clone(base)
         self.mu_1 = clone(base)
 

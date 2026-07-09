@@ -15,10 +15,16 @@ training set. On a MacBook Air we downsample to ~500k training rows to
 keep RAM comfortable. Because inference is cheap, we still evaluate on
 the same 2.8M held-out test set as the Phase 2 models — the downsampling
 is a *training* concession, not an evaluation one.
+
+Phase 5 refactor: model_y (outcome nuisance) and model_t (treatment nuisance)
+are now injectable. Part 1 hardcoded HGB for both. Part 2 sweeps them via
+the base_learners factory, mirroring how the other meta-learners swap their
+base estimator.
 """
 from __future__ import annotations
 
 import numpy as np
+from sklearn.base import clone
 from sklearn.ensemble import (
     HistGradientBoostingClassifier,
     HistGradientBoostingRegressor,
@@ -31,6 +37,8 @@ class CausalForestLearner:
     Notes on constructor args:
       - n_estimators must be divisible by econml's subforest_size (default 4).
       - When treatment is discrete, model_t must be a classifier.
+      - model_y should be a regressor (predicts outcome Y from X).
+      - model_t should be a classifier (predicts binary treatment T from X).
     """
 
     def __init__(
@@ -40,6 +48,8 @@ class CausalForestLearner:
         max_depth: int | None = None,
         random_state: int = 42,
         n_jobs: int = -1,
+        model_y=None,
+        model_t=None,
     ):
         if n_estimators % 4 != 0:
             raise ValueError(
@@ -49,9 +59,12 @@ class CausalForestLearner:
         # Lazy import so the rest of the package works without econml.
         from econml.dml import CausalForestDML
 
+        y_nuisance = clone(model_y) if model_y is not None else HistGradientBoostingRegressor(random_state=random_state)
+        t_nuisance = clone(model_t) if model_t is not None else HistGradientBoostingClassifier(random_state=random_state)
+
         self.model = CausalForestDML(
-            model_y=HistGradientBoostingRegressor(random_state=random_state),
-            model_t=HistGradientBoostingClassifier(random_state=random_state),
+            model_y=y_nuisance,
+            model_t=t_nuisance,
             discrete_treatment=True,
             n_estimators=n_estimators,
             min_samples_leaf=min_samples_leaf,
