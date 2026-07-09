@@ -22,6 +22,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
+      - name: Serve paper.html as site index
+        run: |
+          cp paper/paper.html index.html
+          # paper/paper.html references images at ../artifacts/…; at the root that becomes artifacts/…
+          sed -i 's|src="\.\./artifacts/|src="artifacts/|g' index.html
       - uses: actions/configure-pages@v5
       - uses: actions/jekyll-build-pages@v1
         with:
